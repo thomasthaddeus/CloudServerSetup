@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# List of character names to search for
+characters=("winniethepooh")
+
+# File containing the list to be searched
+input_list="input_list.txt"
+
+# Output file for found character names
+output_file="output.txt"
+
+# Temporary file for Hashcat rule
+hashcat_rule_file="hashcat_rule.rule"
+
+# Search for character names in the list and save to output.txt
+grep -F -x -f <(printf "%s\n" "${characters[@]}") "$input_list" > "$output_file"
+
+# Create a Hashcat rule file with specified filters and rules
+echo ":
+t5
+^p ^s
+$p $s" > "$hashcat_rule_file"
+
+# Run Hashcat with the created rule file
+# Assume the hash file is called hashes.txt
+hashcat -a 0 -m 0 -r "$hashcat_rule_file" "hashes.txt" "$output_file"
+
+# Optionally, remove the temporary Hashcat rule file
+rm "$hashcat_rule_file"

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Set database parameters
+DB_PWD="$DB_PWD"
+DB_NAME="$DB_NAME"
+DB_USER="$DB_USER"
+
+# Set the backup path
+BACKUP_PATH="/opt/backups/mysql"
+date=$(date +"%Y-%m-%d")
+
+# Create a backup
+mysqldump -u $DB_USER -p$DB_PWD $DB_NAME > $BACKUP_PATH/db_backup_$date.sql
+
+# Open the crontab file
+crontab -e
+
+# Add a cron job
+0 3 * * * /home/devsetup/scripts/mysql

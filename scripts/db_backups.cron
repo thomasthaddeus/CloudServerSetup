@@ -1,0 +1,19 @@
+#### `mysqldump` for Backups:
+#1. **Backup All Databases**:
+mysqldump -u [username] -p --all-databases > all_databases.sql
+
+#2. **Backup a Single Database**:
+   mysqldump -u [username] -p [database_name] > database_name.sql
+
+#3. **Backup Multiple Databases**:
+   mysqldump -u [username] -p --databases [database1] [database2] > databases.sql
+
+#4. **Backup Only Specific Tables**:
+   mysqldump -u [username] -p [database_name] [table1] [table2] > tables.sql
+
+#5. **Automate Backups with Cron**:
+   crontab -e
+
+   Add a line to run a backup every day at 2 am, for example:
+   0 2 * * * mysqldump -u [username] -p[password] --all-databases > /path/to/backup/dir/all_databases_$(date +\%F).sql
+
